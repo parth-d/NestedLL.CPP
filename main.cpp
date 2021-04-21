@@ -30,7 +30,10 @@ int main(){
     map<string, int> command_int{{"NEWID", 1}, {"COMBINE", 2}, {"COPY", 3}, {"HEAD", 4}, {"TAIL", 5}, {"ASSIGN", 6}, {"CHS", 7}, {"ADD", 8}, {"IF", 9}, {"HLT", 10}};
 
     // Please store the address of the code file here
-    string addr = R"(C:\Users\parth\Desktop\Current Work\474_SPLI\NestedLL.CPP\code.txt)";
+//    string addr = "code.txt";
+    string addr;
+    cout << "Enter name of the file: " << endl;
+    cin >> addr;
 
     // 'lines' vector stores individual lines.
     vector<string> lines = openfile(addr);
