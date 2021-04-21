@@ -15,44 +15,44 @@ map<string, LList*> LLs;
 //Function Declarations
 vector<string> openfile(const string& addr);
 vector<string> exec_line(const string& line);
-int combine(string s1, string s2);
-int copy(string s1, string s2);
-int head(string s1, string s2);
-int assign(string s1, string s2);
-int chs(string s1);
-int add_ints(string s1, string s2);
-int if_case(string s1);
+int combine(const string& s1, const string& s2);
+int copy(const string& s1, const string& s2);
+int head(const string& s1, const string& s2);
+int assign(const string& s1, const string& s2);
+int chs(const string& s1);
+int add_ints(const string& s1, const string& s2);
+int if_case(const string& s1);
 LList* create(const string& id);
 
 //Driver
 int main(){
+    // Map defining command to int to apply appropriate switch case
     map<string, int> command_int{{"NEWID", 1}, {"COMBINE", 2}, {"COPY", 3}, {"HEAD", 4}, {"TAIL", 5}, {"ASSIGN", 6}, {"CHS", 7}, {"ADD", 8}, {"IF", 9}, {"HLT", 10}};
-    string addr = R"(C:\Users\parth\Desktop\Current Work\474_SPLI\mytry2\code.txt)";
+
+    // Please store the address of the code file here
+    string addr = R"(C:\Users\parth\Desktop\Current Work\474_SPLI\NestedLL.CPP\code.txt)";
+
+    // 'lines' vector stores individual lines.
     vector<string> lines = openfile(addr);
+
+    // If file is empty or not opened properly.
     if (lines.empty()){
         cout << "File either empty or not opened properly.";
         return 1;
     }
-//    ints["x"] =5;
-//    ints["y"] = 4;
-//    LLs["x"] = new LList(1);
-//    LLs["x"]->clear();
-//    LLs["x"]->append(2);
-//    LLs["x"]->append(3);
-//    LLs["x"]->append(LLs["x"]);
-//    new_ids.push_back("y");
-    short i = 0;
+
+    int i = 0;
     while (i != lines.size())
     {
         int ret;
         vector<string> words = exec_line(lines.at(i));
         switch (command_int[words.back()]) {
             case 1:
+                // Create a new-id
                 new_ids.push_back(words[0]);
-//                cout << "Created newid: " << words[0] << endl;
                 break;
             case 2:
-                //combine case
+                // Combine case
                 ret = combine(words[0], words[1]);
                 if (ret != 0)
                 {
@@ -61,7 +61,7 @@ int main(){
                 }
                 break;
             case 3:
-                //copy case
+                // Copy case
                 ret = copy(words[0], words[1]);
                 if (ret != 0)
                 {
@@ -70,7 +70,7 @@ int main(){
                 }
                 break;
             case 4:
-                //head case
+                // Head case
                 ret = head(words[0], words[1]);
                 if (ret != 0)
                 {
@@ -79,11 +79,10 @@ int main(){
                 }
                 break;
             case 5:
-                //tail case
+                // Tail case
                 ret = copy(words[0], words[1]);
                 if (ret == 0)
                 {
-//                    cout << "Copy successful" << endl;
                     LLs[words[1]]->head = LLs[words[1]]->head->next;
                     LLs[words[1]]->size--;
                 } else
@@ -93,7 +92,7 @@ int main(){
                 }
                 break;
             case 6:
-                // assign case
+                // Assign case
                 ret = assign(words[0], words[1]);
                 if (ret != 0)
                 {
@@ -102,7 +101,7 @@ int main(){
                 }
                 break;
             case 7:
-                //change sign case
+                // Change sign case
                 ret = chs(words[0]);
                 if (ret != 0)
                 {
@@ -111,7 +110,7 @@ int main(){
                 }
                 break;
             case 8:
-                //add case
+                // Add case
                 ret = add_ints(words[0], words[1]);
                 if (ret != 0)
                 {
@@ -120,7 +119,7 @@ int main(){
                 }
                 break;
             case 9:
-                //if case
+                // If case
                 ret = if_case(words[0]);
                 if (ret == 0)
                 {
@@ -130,7 +129,7 @@ int main(){
                 else
                     break;
             case 10:
-                //halt case
+                // Halt case
                 cout << "Halting at line " << i+1 << endl;
                 i = lines.size() - 1;
                 break;
@@ -143,6 +142,8 @@ int main(){
     cout << "Program execution completed." << endl;
     cout << "Program counter: " << i << endl;
     cout << "Linked Lists: " << endl;
+
+    // Iterator to print linked lists.
     map<string, LList*>::iterator itr;
     for (itr = LLs.begin(); itr != LLs.end(); ++itr)
     {
@@ -151,6 +152,8 @@ int main(){
         cout << endl;
     }
     cout << "Ints: " << endl;
+
+    // Iterator to print ints.
     map<string, int>::iterator itr2;
     for (itr2 = ints.begin(); itr2 != ints.end(); ++itr2)
     {
@@ -164,31 +167,31 @@ int main(){
 
 //Function Definitions:
 
-
+// Return vector containing lines
 vector<string> openfile(const string& addr){
     string line;
     vector<string> lines;
     ifstream file(addr);
     if (file.is_open()){
-        while (getline(file, line)){
+        while (getline(file, line))
             lines.push_back(line);
-        }
         file.close();
     }
     return lines;
 }
 
+// Return vector containing words in line
 vector<string> exec_line(const string& line){
     string word;
     vector<string> words;
     stringstream iss(line);
-    while (iss >> word){
+    while (iss >> word)
         words.push_back(word);
-    }
     return words;
 }
 
-int combine(string s1, string s2)
+// Combine operation
+int combine(const string& s1, const string& s2)
 {
     // S2 not LList, but declared in new_ids
     if ((LLs.find(s2) == LLs.end()) && (find(new_ids.begin(), new_ids.end(), s2) != new_ids.end() ))
@@ -198,10 +201,9 @@ int combine(string s1, string s2)
         // S1 is int
         if (ints.find(s1) != ints.end())
             LLs[s2]->prepend(ints[s1]);
-            // S1 is LL
+        // S1 is LL
         else if (LLs.find(s1) != LLs.end())
             LLs[s2]->prepend(LLs[s1]);
-//        LLs[s2]->combine(*LLs[s1]);
         else
         {
             cout << "The ID " << s1 << " is neither an int nor a LL. Please check." << endl;
@@ -214,17 +216,16 @@ int combine(string s1, string s2)
         // S1 is int
         if (ints.find(s1) != ints.end())
             LLs[s2]->prepend(ints[s1]);
-            // S1 is LL
+        // S1 is LL
         else if (LLs.find(s1) != LLs.end())
             LLs[s2]->prepend(LLs[s1]);
-//        LLs[s2]->combine(*LLs[s1]);
         else
         {
             cout << "The ID " << s1 << " is neither an int nor a LL. Please check." << endl;
             return 1;
         }
     }
-    //S2 non existant.
+    //S2 non existent.
     else
     {
         cout << "Create " << s2 << " as a new_id first." << endl;
@@ -233,26 +234,25 @@ int combine(string s1, string s2)
     return 0;
 }
 
-int copy(string s1, string s2)
+// Copy case
+int copy(const string& s1, const string& s2)
 {
+    // S2 not LList, but declared in new_ids
     if ((LLs.find(s2) == LLs.end()) && (find(new_ids.begin(), new_ids.end(), s2) != new_ids.end() ))
     {
         new_ids.erase(find(new_ids.begin(), new_ids.end(), s2));
         create(s2);
-        // S1 is LL
         if (LLs.find(s1) != LLs.end())
-        {
             LLs[s2]->copy_from(LLs[s1]);
-        }
         else
         {
             cout << "The ID " << s1 << " is not declared properly as a LL. Please check." << endl;
             return 1;
         }
     }
+    // S2 is a linked list
     else if (LLs.find(s2) != LLs.end())
     {
-        // S1 is LL
         if (LLs.find(s1) != LLs.end())
         {
             LLs[s2]->clear();
@@ -272,7 +272,7 @@ int copy(string s1, string s2)
     return 0;
 }
 
-int head(string s1, string s2)
+int head(const string& s1, const string& s2)
 {
     //s1 not an LList
     if (LLs.find(s1) == LLs.end())
@@ -282,7 +282,7 @@ int head(string s1, string s2)
     }
     else
     {
-        //s1's head, a LList
+        // S1's head is a LList
         if (LLs[s1]->head->holds_ll)
         {
             // S2 not LList, but declared in new_ids
@@ -292,24 +292,33 @@ int head(string s1, string s2)
                 create(s2);
                 LLs[s2]->append(LLs[s1]->head->data.ll);
             }
+            // S2 a linked list
             else if (LLs.find(s2) != LLs.end())
             {
                 LLs[s2]->clear();
                 LLs[s2]->append(LLs[s1]->head->data.ll);
             }
+            else if ((LLs.find(s2) == LLs.end()) && (find(new_ids.begin(), new_ids.end(), s2) == new_ids.end() ))
+            {
+                cout << "s2 not properly declared" << endl;
+                return 1;
+            }
         }
+        // S1's head is an int
         else
         {
+            // S2 not an int, but declared in new_ids
             if ((ints.find(s2) == ints.end()) && (find(new_ids.begin(), new_ids.end(), s2) != new_ids.end() ))
             {
                 new_ids.erase(find(new_ids.begin(), new_ids.end(), s2));
                 ints[s2] = LLs[s1]->head->data.value;
             }
+            // S2 a linked list
             else if (ints.find(s2) != ints.end())
             {
                 ints[s2] = LLs[s1]->head->data.value;
             }
-            else
+            else if ((ints.find(s2) == ints.end()) && (find(new_ids.begin(), new_ids.end(), s2) == new_ids.end() ))
             {
                 cout << "s2 not properly declared" << endl;
                 return 1;
@@ -318,29 +327,30 @@ int head(string s1, string s2)
     }
     return 0;
 }
-
+// Create a new Linked List
 LList* create(const string& id){
     LLs[id] = new LList();
     return LLs[id];
 }
 
-int assign(string s1, string s2)
+// Assign operation
+int assign(const string& s1, const string& s2)
 {
     //s2 is not a valid integer
-//    if (!(all_of(s2.begin(), s2.end(), ::isdigit)))
-//    {
-//        cout << "Invalid integer entered" << endl;
-//        return 1;
-//    }
-//    else
+    if ((to_string(stoi(s2)).size()) != s2.size())
     {
-        //s1 is a new_id
+        cout << "Invalid integer entered" << endl;
+        return 1;
+    }
+    else
+    {
+        // S1 is a new_id
         if (find(new_ids.begin(), new_ids.end(), s1) != new_ids.end())
         {
             new_ids.erase(find(new_ids.begin(), new_ids.end(), s1));
             ints[s1] = stoi(s2);
         }
-        //s1 is an int
+        // S1 is an int
         else if (ints.find(s1) != ints.end())
             ints[s1] = stoi(s2);
         else
@@ -352,17 +362,19 @@ int assign(string s1, string s2)
     return 0;
 }
 
-int chs(string s1)
+// Change sign operation
+int chs(const string& s1)
 {
-    //s1 is a new_id
+    // S1 is a new_id
     if (find(new_ids.begin(), new_ids.end(), s1) != new_ids.end())
     {
         cout << "Identifier not yet assigned value" << endl;
         return 1;
     }
-    //s1 is an int
+    // S1 is an int
     else if (ints.find(s1) != ints.end())
         ints[s1] *= -1;
+    // S1 non existent
     else
     {
         cout << "Identifier " << s1 << " is neither new_id nor an int" << endl;
@@ -371,11 +383,12 @@ int chs(string s1)
     return 0;
 }
 
-int add_ints(string s1, string s2)
+// Add case
+int add_ints(const string& s1, const string& s2)
 {
+    // Both ints found successfully
     if ((ints.find(s1) != ints.end()) && (ints.find(s2) != ints.end()))
         ints[s1] += ints[s2];
-
     else
     {
         cout << "The integers are not declared correctly. Please check" << endl;
@@ -384,9 +397,10 @@ int add_ints(string s1, string s2)
     return 0;
 }
 
-int if_case(string s1)
+// If case
+int if_case(const string& s1)
 {
-    //s1 is LList
+    // S1 is LList
     if (LLs.find(s1) != LLs.end())
     {
         if (LLs[s1]->head->data.value == -1723)
@@ -399,19 +413,3 @@ int if_case(string s1)
     }
     return 1;
 }
-
-//
-//// Trial main program:
-//int main() {
-//    LList parth;
-//    parth.append(1);
-//    parth.append(2);
-//    LList rujuta;
-//    rujuta.append(11);
-//    rujuta.append(12);
-//    parth.append(&rujuta);
-////    parth.print();
-//    rujuta.append(&parth);
-//    rujuta.print();
-//    return 0;
-//}

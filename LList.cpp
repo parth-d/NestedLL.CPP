@@ -5,11 +5,15 @@ LList::LList() {
     size = 0;
 }
 
-node *LList::find_tail() {
+LList::LList(int x) {
+    head = new node(x);
+    size = 1;
+}
+
+node *LList::find_tail() const {
     if (head->data.value == -1723)
         return nullptr;
     node* temp = head;
-//    cout << "Going below head" << endl;
     while (true)
     {
         if (temp->next == nullptr)
@@ -43,8 +47,6 @@ void LList::prepend(int x) {
     size++;
 }
 
-
-
 void LList::append(LList *ll) {
     node* tail = find_tail();
     if (tail == nullptr)
@@ -71,7 +73,7 @@ void LList::prepend(LList *ll) {
 }
 
 
-void LList::print(){
+void LList::print() const{
     cout << "[ ";
     if (size == 0)
     {
@@ -87,23 +89,12 @@ void LList::print(){
     while (temp != nullptr)
     {
         if (temp->holds_ll)
-        {
-//            cout << "Calling recursion" ;
             temp->data.ll->print();
-        }
         else
-        {
             cout << temp->data.value << " ";
-        }
-//        cout << temp->data.value << "\t" << &temp->data.value << endl;
         temp = temp->next;
     }
     cout << " ]";
-}
-
-LList::LList(int x) {
-    head = new node(x);
-    size = 1;
 }
 
 void LList::copy_from(LList* ll)
@@ -124,7 +115,7 @@ void LList::copy_from(LList* ll)
             append(ptr->data.value);
         ptr = ptr->next;
     }
-    }
+}
 
 void LList::clear() {
     node* ptr = head;
@@ -139,5 +130,3 @@ void LList::clear() {
     }
     head = new node;
 }
-
-

@@ -9,15 +9,20 @@
 #include "LList.h"
 class LList;
 class node {
+    // Union definition
     union data_union{
         int value;
         LList* ll;
     };
+
 public:
-    union data_union data;
+
+    // Object variables
+    union data_union data{};
     node* next;
     bool holds_ll;
 
+    // Constructors
     node();
     node(int x);
     node(LList* ll);
