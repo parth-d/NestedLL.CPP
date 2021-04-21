@@ -15,6 +15,13 @@ node::node(int x) {
     next = nullptr;
 }
 
+node::node(LList *ll) {
+    holds_ll = true;
+    data.ll = new LList;
+    data.ll->copy_from(ll);
+    next = nullptr;
+}
+
 //node::node(LList *ll) {
 //    holds_ll = true;
 //    data.ll = new LList(ll);

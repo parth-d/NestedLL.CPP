@@ -20,7 +20,7 @@ public:
 
     node();
     node(int x);
-//    node(LList* ll);
+    node(LList* ll);
 };
 
 

@@ -2,14 +2,14 @@
 #include "LList.h"
 
 int main() {
-    LList parth(1);
+    LList parth;
+    parth.append(1);
     parth.append(2);
-//    parth.print();
     LList rujuta;
-    rujuta.copy_from(&parth);
-    parth.append(3);
+    rujuta.append(11);
+    rujuta.append(12);
+    rujuta.prepend(&parth);
     rujuta.print();
-    cout << endl;
-    parth.print();
+    cout << rujuta.size << endl;
     return 0;
 }

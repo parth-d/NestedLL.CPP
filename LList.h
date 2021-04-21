@@ -17,16 +17,14 @@ public:
 
     LList();
     explicit LList(int x);
-//    explicit LList(LList* ll);
     void append(int x);
-//    void append(LList* ll);
+    void append(LList* ll);
     node* find_tail();
-
     void print();
-
     void copy_from(LList *ll);
     void clear();
-    void clear(node* node);
+    void prepend(int x);
+    void prepend(LList* ll);
 };
 
 #endif //MYTRY2_LLIST_H

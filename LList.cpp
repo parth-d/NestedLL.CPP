@@ -31,17 +31,69 @@ void LList::append(int x) {
     size++;
 }
 
-void LList::print(){
+void LList::prepend(int x) {
     if (find_tail() == nullptr)
     {
+        append(x);
+        return;
+    }
+    node* old_head = head;
+    head = new node(x);
+    head->next = old_head;
+    size++;
+}
+
+
+
+void LList::append(LList *ll) {
+    node* tail = find_tail();
+    if (tail == nullptr)
+    {
+        head->holds_ll = true;
+        head = new node(ll);
+        size++;
+        return;
+    }
+    tail->next = new node(ll);
+    size++;
+}
+
+void LList::prepend(LList *ll) {
+    if (find_tail() == nullptr)
+    {
+        append(ll);
+        return;
+    }
+    node* old_head = head;
+    head = new node(ll);
+    head->next = old_head;
+    size++;
+}
+
+
+void LList::print(){
+    cout << "[ ";
+    if (find_tail() == nullptr)
+    {
+        cout << " ]";
         return;
     }
     node* temp = head;
     while (temp != nullptr)
     {
-        cout << temp->data.value << "\t" << &temp->data.value << endl;
+        if (temp->holds_ll)
+        {
+//            cout << "Calling recursion" ;
+            temp->data.ll->print();
+        }
+        else
+        {
+            cout << temp->data.value << " ";
+        }
+//        cout << temp->data.value << "\t" << &temp->data.value << endl;
         temp = temp->next;
     }
+    cout << " ]";
 }
 
 LList::LList(int x) {
@@ -66,6 +118,8 @@ void LList::clear() {
     while (ptr != nullptr)
     {
         node* temp = ptr->next;
+        if (ptr->holds_ll)
+            ptr->data.ll->clear();
         delete ptr;
         size--;
         ptr = temp;
@@ -73,23 +127,4 @@ void LList::clear() {
     head = new node;
 }
 
-//LList::LList(LList *ll) {
-//    if (!(ll->head->holds_ll) && (ll->head->data.value == 0))
-//        head = new node;
-//    else
-//    {
-//        node* ptr = ll->head;
-//        while (ptr != nullptr)
-//        {
-//            if (ptr->holds_ll)
-//                append(ptr->data.ll);
-//            else
-//                append(ptr->data.value);
-//        }
-//    }
-//}
 
-//void LList::append(LList *ll) {
-//    node* tail = find_tail();
-//    tail->next = new node(ll);
-//}
