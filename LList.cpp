@@ -108,7 +108,10 @@ void LList::copy_from(LList* ll)
     node* ptr = ll->head;
     while (ptr != nullptr)
     {
-        append(ptr->data.value);
+        if (ptr->holds_ll)
+            append(ptr->data.ll);
+        else
+            append(ptr->data.value);
         ptr = ptr->next;
     }
     }

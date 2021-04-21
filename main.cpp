@@ -8,8 +8,9 @@ int main() {
     LList rujuta;
     rujuta.append(11);
     rujuta.append(12);
-    rujuta.prepend(&parth);
+    parth.append(&rujuta);
+//    parth.print();
+    rujuta.append(&parth);
     rujuta.print();
-    cout << rujuta.size << endl;
     return 0;
 }
