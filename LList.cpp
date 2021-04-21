@@ -6,7 +6,7 @@ LList::LList() {
 }
 
 node *LList::find_tail() {
-    if (!(head->holds_ll) && (head->data.value == -1723))
+    if (head->data.value == -1723)
         return nullptr;
     node* temp = head;
 //    cout << "Going below head" << endl;
@@ -73,6 +73,11 @@ void LList::prepend(LList *ll) {
 
 void LList::print(){
     cout << "[ ";
+    if (size == 0)
+    {
+        cout << " ]";
+        return;
+    }
     if (find_tail() == nullptr)
     {
         cout << " ]";
@@ -103,8 +108,13 @@ LList::LList(int x) {
 
 void LList::copy_from(LList* ll)
 {
-    if (ll->find_tail() == nullptr)
+    if (ll->size == 0)
         return;
+    if (ll->find_tail() == nullptr)
+    {
+        head = new node;
+        return;
+    }
     node* ptr = ll->head;
     while (ptr != nullptr)
     {
