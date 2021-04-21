@@ -6,9 +6,10 @@ LList::LList() {
 }
 
 node *LList::find_tail() {
-    if (!(head->holds_ll) && (head->data.value == NULL))
-        return NULL;
+    if (!(head->holds_ll) && (head->data.value == -1723))
+        return nullptr;
     node* temp = head;
+//    cout << "Going below head" << endl;
     while (true)
     {
         if (temp->next == nullptr)
@@ -21,7 +22,8 @@ void LList::append(int x) {
     node* tail = find_tail();
     if (tail == nullptr)
     {
-        head->data.value = x;
+        int data = x;
+        head->data.value = data;
         size++;
         return;
     }
@@ -37,7 +39,7 @@ void LList::print(){
     node* temp = head;
     while (temp != nullptr)
     {
-        cout << temp->data.value << endl;
+        cout << temp->data.value << "\t" << &temp->data.value << endl;
         temp = temp->next;
     }
 }
@@ -57,20 +59,18 @@ void LList::copy_from(LList* ll)
         append(ptr->data.value);
         ptr = ptr->next;
     }
-    return;
-}
+    }
 
 void LList::clear() {
-    clear(head);
-    head = new node;
-}
-
-void LList::clear(node *node) {
-    if (node->next != nullptr){
-        clear(node->next);
+    node* ptr = head;
+    while (ptr != nullptr)
+    {
+        node* temp = ptr->next;
+        delete ptr;
+        size--;
+        ptr = temp;
     }
-    delete node;
-    size--;
+    head = new node;
 }
 
 //LList::LList(LList *ll) {

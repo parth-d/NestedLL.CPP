@@ -5,7 +5,7 @@
 
 node::node() {
     holds_ll = false;
-    data.value = NULL;
+    data.value = -1723;
     next = nullptr;
 }
 
