@@ -29,15 +29,12 @@ int main(){
     // Map defining command to int to apply appropriate switch case
     map<string, int> command_int{{"NEWID", 1}, {"COMBINE", 2}, {"COPY", 3}, {"HEAD", 4}, {"TAIL", 5}, {"ASSIGN", 6}, {"CHS", 7}, {"ADD", 8}, {"IF", 9}, {"HLT", 10}};
 
-    // Please store the address of the code file here
-//    string addr = "code.txt";
     string addr;
     cout << "Enter name of the file: " << endl;
     cin >> addr;
 
     // 'lines' vector stores individual lines.
     vector<string> lines = openfile(addr);
-
     // If file is empty or not opened properly.
     if (lines.empty()){
         cout << "File either empty or not opened properly.";
@@ -177,7 +174,14 @@ vector<string> openfile(const string& addr){
     ifstream file(addr);
     if (file.is_open()){
         while (getline(file, line))
+        {
+            if (line.empty())
+            {
+                cout << "Empty line found after line " << lines.size() << ". Skipping." << endl;
+                continue;
+            }
             lines.push_back(line);
+        }
         file.close();
     }
     return lines;
