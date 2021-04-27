@@ -139,9 +139,9 @@ int main(){
         }
         i++;
     }
-    cout << "Program execution completed." << endl;
+    cout << "\n \n ===================================== \n \n" << "Program execution completed." << endl;
     cout << "Program counter: " << i << endl;
-    cout << "Linked Lists: " << endl;
+    cout << "\nLinked Lists: " << endl;
 
     // Iterator to print linked lists.
     map<string, LList*>::iterator itr;
@@ -151,7 +151,7 @@ int main(){
         itr->second->print();
         cout << endl;
     }
-    cout << "Ints: " << endl;
+    cout << "\nInts: " << endl;
 
     // Iterator to print ints.
     map<string, int>::iterator itr2;
@@ -175,7 +175,7 @@ vector<string> openfile(const string& addr){
     if (file.is_open()){
         while (getline(file, line))
         {
-            if (line.empty())
+            if (line.size() == 1)
             {
                 cout << "Empty line found after line " << lines.size() << ". Skipping." << endl;
                 continue;
@@ -251,8 +251,9 @@ int copy(const string& s1, const string& s2)
         create(s2);
         if (LLs.find(s1) != LLs.end())
             LLs[s2]->copy_from(LLs[s1]);
-        else
-        {
+        else if (find(new_ids.begin(), new_ids.end(), s1) != new_ids.end())
+            LLs[s2]->clear();
+        else {
             cout << "The ID " << s1 << " is not declared properly as a LL. Please check." << endl;
             return 1;
         }
@@ -265,8 +266,10 @@ int copy(const string& s1, const string& s2)
             LLs[s2]->clear();
             LLs[s2]->copy_from(LLs[s1]);
         }
-        else
-        {
+        else if (find(new_ids.begin(), new_ids.end(), s1) != new_ids.end())
+            LLs[s2]->clear();
+        else {
+            cout << 2 << endl;
             cout << "The ID " << s1 << " is not declared properly as a LL. Please check." << endl;
             return 1;
         }
